@@ -30,18 +30,28 @@ var model = {
     fire: function(guess) {
         for (var i = 0; i < this.numShips; i++) {
             var ship = this.ships[i];
+            
             // determine if guess is in locations
             var index = ship.locations.indexOf(guess);
+            
             // index is -1 if guess isn't in the array, so when we have a hit:
             if (index >= 0) {
                 ship.hits[index]= "hit";
+                view.displayHit(guess);
+                view.displayMessage("HIT!");
+
                 // sink ship when all locations are hit
                 if (this.isSunk(ship)) {
+                    view.displayMessage("You sank my battleship!");
                     this.shipsSunk++;
                 }
+            
                 return true; 
             }
-        return false;
+            // when not in locations, it's not a hit
+            view.displayMissed(guess);
+            view.displayMessage("You missed");
+            return false;
         }
     },
     isSunk: function(ship) {
