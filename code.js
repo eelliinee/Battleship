@@ -24,9 +24,32 @@ var model = {
     shipLength: 3,
     shipsSunk: 0,
 
-    ships:  [{locations: ["06", "16", "26"], hits: ["", "", ""]},
-            {locations: ["24", "34", "44"], hits: ["", "", ""]},
-            {locations: ["10", "11", "12"], hits: ["", "", ""]}],
+    ships:  [{locations: [], hits: []},
+            {locations: [], hits: []},
+            {locations: [], hits: []}],
+    placeShips: function() {
+        for (var i = 0; i < this.numShips; i++) {
+            // get ship locations and enter them in ships
+            this.ships[i].locations[0] = getShipLocNum(this.boardSize, this.shipLength) + getShipLocNum(this.boardSize, this.shipLength);
+            
+            if (Math.round(Math.random()) === 0) {
+                for (var j = 1; j < this.shipLength; j++) {
+                    shipLocInt = parseInt(this.ships[i].locations[0], 10) + j;
+                    this.ships[i].locations[j] = shipLocInt.toString();
+                }
+            } else {
+                for (var j = 1; j < this.shipLength; j++) {
+                    shipLocInt = parseInt(this.ships[i].locations[0], 10) + j*10;
+                    this.ships[i].locations[j] = shipLocInt.toString();
+                }
+            }
+            
+            // set hits with empty string for ship length
+            for (var j = 0; j < this.shipLength; j++) {
+            this.ships[i].hits[j] = "";
+            }        
+        }
+    },
     fire: function(guess) {
         for (var i = 0; i < this.numShips; i++) {
             var ship = this.ships[i];
@@ -153,12 +176,22 @@ function parseGuess(guess) {
 // controller.processGuess("B2"); // hit
 
 function init() {
+    model.placeShips();
+    console.log(model.ships);
     // when button clicked
     var fireButton = document.getElementById("fireButton");
     fireButton.onclick = handleFireButton;
     // when pressed return/enter 
     var guessInput = document.getElementById("guessInput");
     guessInput.onkeypress = handleKeyPress;
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+function getShipLocNum(boardSize, shipLength) {
+    return getRandomInt(0, boardSize - shipLength).toString();
 }
 
 function handleFireButton() {
