@@ -151,3 +151,19 @@ function parseGuess(guess) {
 // controller.processGuess("B0"); // hit
 // controller.processGuess("B1"); // hit
 // controller.processGuess("B2"); // hit
+
+function init() {
+    var fireButton = document.getElementById("fireButton");
+    fireButton.onclick = handleFireButton;
+}
+
+function handleFireButton() {
+    var guessInput = document.getElementById("guessInput");
+    var guess = guessInput.value;
+    controller.processGuess(guess);
+
+    // empty guessInput after guess
+    guessInput.value = "";
+}
+
+window.onload = init;
