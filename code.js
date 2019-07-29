@@ -30,7 +30,7 @@ var model = {
     fire: function(guess) {
         for (var i = 0; i < this.numShips; i++) {
             var ship = this.ships[i];
-            
+
             // determine if guess is in locations
             var index = ship.locations.indexOf(guess);
             
@@ -43,19 +43,20 @@ var model = {
                 // sink ship when all locations are hit
                 if (this.isSunk(ship)) {
                     view.displayMessage("You sank my battleship!");
+
                     this.shipsSunk++;
                 }
             
                 return true; 
             }
-            // when not in locations, it's not a hit
-            view.displayMissed(guess);
-            view.displayMessage("You missed");
-            return false;
         }
+        // when not in locations, it's not a hit
+        view.displayMissed(guess);
+        view.displayMessage("You missed");
+        return false;
     },
     isSunk: function(ship) {
-        //// book way
+        // // book way
         // for (var i = 0; i < this.shipLength; i++) {
         //     if (ship.hits[i] !== "hit") {
         //         return false;
@@ -63,7 +64,27 @@ var model = {
         // }
         // return true;
         //// my way
-        ship.hits.includes("") ? false : true; 
+        if(ship.hits.includes("")) {
+            return false;
+        } else {
+            return true; 
+        }
     }
 }
 
+// //testing code
+// //missed guesses
+// model.fire("53");
+
+// // hit guesses
+// model.fire("06");
+// model.fire("16");
+// model.fire("26");
+
+// model.fire("24");
+// model.fire("34");
+// model.fire("44");
+
+// model.fire("12");
+// model.fire("11");
+// model.fire("10");
