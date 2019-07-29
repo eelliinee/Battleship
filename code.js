@@ -24,30 +24,38 @@ var model = {
     shipLength: 3,
     shipsSunk: 0,
 
-    ships:  [{locations: [], hits: []},
-            {locations: [], hits: []},
-            {locations: [], hits: []}],
+    ships:  [],
     placeShips: function() {
         for (var i = 0; i < this.numShips; i++) {
-            // get ship locations and enter them in ships
-            this.ships[i].locations[0] = getShipLocNum(this.boardSize, this.shipLength) + getShipLocNum(this.boardSize, this.shipLength);
+            // make object for one ship
+            var ship = {
+                locations: [],
+                hits: [],
+            }
             
-            if (Math.round(Math.random()) === 0) {
+            // get ship locations and enter them in ship
+            ship.locations[0] = getShipLocNum(this.boardSize, this.shipLength) + getShipLocNum(this.boardSize, this.shipLength);
+
+            // randomly decide vertical or horizontal ship
+            if (Math.round(Math.random()) === 0) { // horizontal ship
                 for (var j = 1; j < this.shipLength; j++) {
-                    shipLocInt = parseInt(this.ships[i].locations[0], 10) + j;
-                    this.ships[i].locations[j] = shipLocInt.toString();
+                    shipLocInt = parseInt(ship.locations[0], 10) + j;
+                    ship.locations[j] = shipLocInt.toString();
                 }
-            } else {
+            } else { // vertical ship
                 for (var j = 1; j < this.shipLength; j++) {
-                    shipLocInt = parseInt(this.ships[i].locations[0], 10) + j*10;
-                    this.ships[i].locations[j] = shipLocInt.toString();
+                    shipLocInt = parseInt(ship.locations[0], 10) + j*10;
+                    ship.locations[j] = shipLocInt.toString();
                 }
             }
             
             // set hits with empty string for ship length
             for (var j = 0; j < this.shipLength; j++) {
-            this.ships[i].hits[j] = "";
-            }        
+                ship.hits[j] = "";
+            }
+
+            // add ship in ships
+            this.ships.push(ship);
         }
     },
     fire: function(guess) {
