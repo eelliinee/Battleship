@@ -72,7 +72,7 @@ var model = {
     }
 }
 
-// //testing code
+// //testing code fire and isSunk
 // //missed guesses
 // model.fire("53");
 
@@ -88,3 +88,44 @@ var model = {
 // model.fire("12");
 // model.fire("11");
 // model.fire("10");
+
+var controller = {
+    guesses: 0,
+
+    processGuess: function(guess) {
+
+    }
+}
+
+function parseGuess(guess) {
+    // check input valid (not valid -> return null)
+    if (guess === null || guess.length !== 2) {
+        alert("Please enter a letter and a number");
+        return null;
+    }
+
+    // convert letter to a number
+    var firstLetter = guess.charAt(0);
+
+    var firstNumber = firstLetter.toUpperCase().charCodeAt(0) - 65;
+
+
+    // check number valid (not valid -> return null)
+    if (firstNumber < 0 || firstNumber >= model.boardSize) {
+        alert("That letter is not on the board");
+        return null;
+    }
+
+    // check second number valid (not valid -> return null)
+    var secondNumber = parseInt(guess.charAt(1), 10);
+    if (secondNumber < 0 || secondNumber >= model.boardSize) {
+        alert("That number is not on the board");
+        return null;
+    }
+
+    // concatenate two numbers into string, return string
+    return firstNumber.toString() + secondNumber.toString();
+}
+
+// // test parseGuess
+//console.log(parseGuess("e6"));
