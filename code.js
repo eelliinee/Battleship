@@ -153,8 +153,12 @@ function parseGuess(guess) {
 // controller.processGuess("B2"); // hit
 
 function init() {
+    // when button clicked
     var fireButton = document.getElementById("fireButton");
     fireButton.onclick = handleFireButton;
+    // when pressed return/enter 
+    var guessInput = document.getElementById("guessInput");
+    guessInput.onkeypress = handleKeyPress;
 }
 
 function handleFireButton() {
@@ -164,6 +168,14 @@ function handleFireButton() {
 
     // empty guessInput after guess
     guessInput.value = "";
+}
+
+function handleKeyPress(e) {
+    var fireButton = document.getElementById("fireButton");
+    if (e.keyCode === 13) {
+        fireButton.click();
+        return false;
+    }
 }
 
 window.onload = init;
