@@ -33,19 +33,18 @@ var model = {
                 hits: [],
             }
             
-            // get ship locations and enter them in ship
-            ship.locations[0] = getShipLocNum(this.boardSize, this.shipLength) + getShipLocNum(this.boardSize, this.shipLength);
-
-            // randomly decide vertical or horizontal ship
+            // randomly decide vertical or horizontal ship, get ship locations
             if (Math.round(Math.random()) === 0) { // horizontal ship
+                ship.locations[0] = getRandomInt(0, this.boardSize - 1).toString() + getRandomInt(0, this.boardSize - this.shipLength);
                 for (var j = 1; j < this.shipLength; j++) {
-                    shipLocInt = parseInt(ship.locations[0], 10) + j;
-                    ship.locations[j] = shipLocInt.toString();
+                    var shipLocInt = parseInt(ship.locations[0], 10) + j;
+                    ship.locations[j] = shipLocInt.toString().padStart(2, "0");
                 }
             } else { // vertical ship
+                ship.locations[0] = getRandomInt(0, this.boardSize - this.shipLength).toString() + getRandomInt(0, this.boardSize - 1);
                 for (var j = 1; j < this.shipLength; j++) {
-                    shipLocInt = parseInt(ship.locations[0], 10) + j*10;
-                    ship.locations[j] = shipLocInt.toString();
+                    var shipLocInt = parseInt(ship.locations[0], 10) + j*10;
+                    ship.locations[j] = shipLocInt.toString().padStart(2, "0");
                 }
             }
             
@@ -119,6 +118,7 @@ var model = {
 // model.fire("12");
 // model.fire("11");
 // model.fire("10");
+
 
 var controller = {
     guesses: 0,
@@ -196,10 +196,6 @@ function init() {
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
-}
-
-function getShipLocNum(boardSize, shipLength) {
-    return getRandomInt(0, boardSize - shipLength).toString();
 }
 
 function handleFireButton() {
