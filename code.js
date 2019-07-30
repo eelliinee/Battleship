@@ -20,17 +20,25 @@ var view = {
 
 var model = {
     boardSize: 7,
-    numShips: 3,
+    numShips: 5,
     shipLength: 3,
     shipsSunk: 0,
 
     ships:  [],
     placeShips: function() {
-        for (var i = 0; i < this.numShips; i++) {
+        var i = 0;
+        loop1:
+        while (i < this.numShips) {
+            
             // make object for one ship
             var ship = {
                 locations: [],
                 hits: [],
+            }
+
+            // set hits with empty string for ship length
+            for (var j = 0; j < this.shipLength; j++) {
+                ship.hits[j] = "";
             }
             
             // randomly decide vertical or horizontal ship, get ship locations
@@ -47,14 +55,21 @@ var model = {
                     ship.locations[j] = shipLocInt.toString().padStart(2, "0");
                 }
             }
-            
-            // set hits with empty string for ship length
-            for (var j = 0; j < this.shipLength; j++) {
-                ship.hits[j] = "";
-            }
 
-            // add ship in ships
+            //check for overlap
+            if (this.ships.length > 0) { // when there is a ship in the array
+                for (var k = 0; k < this.ships.length; k++) {
+                    for (var j = 0; j < ship.locations.length; j++){
+                        if (this.ships[k].locations.indexOf(ship.locations[j]) > -1) {
+                            continue loop1;
+                        }
+                    }
+                }
+            } 
+                
+            // add ship in ships    
             this.ships.push(ship);
+            i++;            
         }
     },
     fire: function(guess) {
